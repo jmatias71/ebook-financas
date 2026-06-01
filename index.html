@@ -1,0 +1,1136 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Guia Definitivo do Planejamento Financeiro</title>
+    
+    <!-- Configurações para PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Plan. Financeiro">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        },
+                        sepia: {
+                            50: '#fbf0e3',
+                            100: '#f4e4d0',
+                            200: '#e7cfb3',
+                            800: '#433422',
+                            900: '#2c2013',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        /* Custom Sepia style */
+        .theme-sepia {
+            background-color: #fbf0e3 !important;
+            color: #433422 !important;
+        }
+        .theme-sepia .bg-card {
+            background-color: #f4e4d0 !important;
+            border-color: #e7cfb3 !important;
+        }
+        .theme-sepia .text-muted {
+            color: #6e583f !important;
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200 font-sans">
+
+    <div class="flex h-full overflow-hidden">
+        
+        <!-- SIDEBAR NAVIGATION (Desktop) -->
+        <aside id="sidebar" class="hidden md:flex flex-col w-80 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex-shrink-0 transition-colors duration-200">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 mb-2">
+                    <i data-lucide="gem" class="w-6 h-6"></i>
+                    <span class="font-extrabold tracking-wider text-sm uppercase">Guia Prático</span>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">Planejamento Financeiro</h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Domine suas Finanças, Construa seu Futuro</p>
+            </div>
+            
+            <!-- Leitura Progress Bar -->
+            <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                <div class="flex justify-between items-center text-xs mb-1 font-semibold text-slate-500 dark:text-slate-400">
+                    <span>Progresso da Leitura</span>
+                    <span id="reading-progress-text">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-2">
+                    <div id="reading-progress-bar" class="bg-emerald-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Capítulos Menu -->
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="nav-chapters">
+                <!-- Capítulos serão injetados por JS -->
+            </nav>
+
+            <!-- Rodapé da Sidebar (Controles e Instalação) -->
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-3">
+                <!-- Botão de Instalar PWA -->
+                <button id="pwa-install-btn" class="hidden w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-lg shadow-emerald-600/10 active:scale-95">
+                    <i data-lucide="download-cloud" class="w-4 h-4"></i>
+                    <span>Instalar Aplicativo</span>
+                </button>
+
+                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <span>Tema do Leitor</span>
+                    <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-lg gap-1">
+                        <button onclick="setTheme('light')" class="p-1.5 rounded hover:bg-white dark:hover:bg-slate-700 transition" title="Modo Claro">
+                            <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="setTheme('sepia')" class="p-1.5 rounded hover:bg-white dark:hover:bg-slate-700 transition" title="Modo Sépia">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                        </button>
+                        <button onclick="setTheme('dark')" class="p-1.5 rounded hover:bg-white dark:hover:bg-slate-700 transition" title="Modo Escuro">
+                            <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                    <span>Tamanho do Texto</span>
+                    <div class="flex gap-2">
+                        <button onclick="changeFontSize(-1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded text-xs font-bold transition">-A</button>
+                        <button onclick="changeFontSize(1)" class="px-2 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded text-xs font-bold transition">+A</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-slate-900" id="main-container">
+            
+            <!-- Mobile Top Bar Header -->
+            <header class="flex md:hidden items-center justify-between px-4 py-3 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 z-10 flex-shrink-0">
+                <button id="mobile-menu-btn" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <div class="text-center">
+                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-500 uppercase tracking-wider block">E-book Interativo</span>
+                    <span class="text-sm font-bold truncate block max-w-[180px]" id="mobile-chapter-title">Introdução</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="mobile-install-btn" class="hidden p-2 text-emerald-600 dark:text-emerald-500 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Instalar aplicativo no celular">
+                        <i data-lucide="download-cloud" class="w-5 h-5"></i>
+                    </button>
+                    <button id="mobile-theme-btn" onclick="toggleMobileTheme()" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800">
+                        <i data-lucide="sun" class="w-5 h-5 block dark:hidden"></i>
+                        <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Mobile Drawer Menu (Hidden by default) -->
+            <div id="mobile-drawer" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300 opacity-0">
+                <div class="absolute top-0 left-0 bottom-0 w-80 bg-white dark:bg-slate-950 flex flex-col shadow-2xl h-full transform -translate-x-full transition-transform duration-300" id="drawer-content">
+                    <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                        <h2 class="font-bold text-lg">Capítulos</h2>
+                        <button id="close-drawer-btn" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                    <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="nav-chapters-mobile">
+                        <!-- Cloned Menu -->
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Central Reading Window -->
+            <div class="flex-1 overflow-y-auto px-4 md:px-12 py-8 max-w-4xl mx-auto w-full" id="reading-pane">
+                
+                <!-- CAPA / HERO BANNER COM SUPER CONTRASTE -->
+                <div id="chapter-hero" class="mb-8 rounded-2xl overflow-hidden relative shadow-lg h-64 md:h-80 flex items-center justify-center p-6 text-center select-none bg-slate-950">
+                    
+                    <!-- Imagem de Capa do Capítulo -->
+                    <img id="hero-cover-image" class="absolute inset-0 w-full h-full object-cover transition-all duration-300 scale-105" alt="Capa do Capítulo">
+                    
+                    <!-- Película escura dupla para garantir legibilidade perfeita de textos brancos -->
+                    <div class="absolute inset-0 bg-slate-950/40 z-10"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30 z-10"></div>
+
+                    <!-- Conteúdo de texto centralizado com efeito drop shadow -->
+                    <div class="relative z-20 max-w-2xl px-4">
+                        <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-3 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]" id="chapter-title-hero">Carregando...</h2>
+                        <p class="text-emerald-400 text-sm md:text-lg font-bold uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" id="chapter-subtitle-hero"></p>
+                    </div>
+                </div>
+
+                <!-- Main Text Core -->
+                <article class="prose dark:prose-invert max-w-none transition-all duration-150" id="chapter-content" style="font-size: 16px;">
+                    <!-- O conteúdo do capítulo será injetado dinamicamente aqui -->
+                </article>
+
+                <!-- FOOTER NAVIGATION -->
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center pb-16">
+                    <button id="prev-chapter-btn" onclick="navigateChapter(-1)" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>Anterior</span>
+                    </button>
+                    <button id="next-chapter-btn" onclick="navigateChapter(1)" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-lg shadow-lg shadow-emerald-500/20 text-sm transition">
+                        <span>Próximo Capítulo</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+    <!-- DATA STORE FOR EBOOK & APP CONFIG -->
+    <script>
+        // Global State
+        let currentChapterIndex = 0;
+        let readerTheme = 'light';
+        let readerFontSize = 17; // px
+        
+        // Dynamic charts cache
+        let activeCharts = {};
+
+        // Comprehensive E-book Content Object with Curated Background Images for Cover Section
+        const ebookData = [
+            {
+                id: 'intro',
+                title: 'Introdução',
+                subtitle: 'Por Que o Dinheiro Não Pode Ser Um Tabu?',
+                imageUrl: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="lead text-lg font-medium text-slate-600 dark:text-slate-300 mb-6">O dinheiro é uma das ferramentas mais poderosas que temos para construir a vida que desejamos. No entanto, muitas pessoas evitam pensar sobre ele, o que as leva a viver em um ciclo de dívidas, incertezas e estresse.</p>
+                    <p class="mb-4">O objetivo deste e-book é mudar essa mentalidade. Não vamos apenas falar sobre números e planilhas, mas sobre como o planejamento financeiro é um ato de autocuidado, resiliência e, acima de tudo, de construção de liberdade.</p>
+                    
+                    <div class="my-8 p-6 bg-emerald-50 dark:bg-emerald-950/30 border-l-4 border-emerald-500 rounded-r-xl">
+                        <h4 class="font-bold text-emerald-800 dark:text-emerald-400 flex items-center gap-2 mb-2">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i> O que você vai aprender neste guia:
+                        </h4>
+                        <ul class="space-y-2 text-slate-700 dark:text-slate-300">
+                            <li class="flex items-start gap-2">✔ <span class="ml-1">Ter uma visão clara de sua situação financeira atual por meio de um diagnóstico preciso.</span></li>
+                            <li class="flex items-start gap-2">✔ <span class="ml-1">Utilizar ferramentas práticas para categorizar e controlar seus gastos sem sacrificar sua qualidade de vida.</span></li>
+                            <li class="flex items-start gap-2">✔ <span class="ml-1">Aplicar estratégias matemáticas e comportamentais para quitar dívidas rapidamente.</span></li>
+                            <li class="flex items-start gap-2">✔ <span class="ml-1">Blindar seu patrimônio contra imprevistos e fazer o dinheiro trabalhar de forma inteligente.</span></li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 'cap1',
+                title: 'Capítulo 1: O Ponto de Partida',
+                subtitle: 'Entenda sua Realidade Financeira',
+                imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">Antes de planejar o futuro, você precisa compreender o presente. Este diagnóstico inicial é o alicerce de toda a sua estratégia financeira.</p>
+                    <h3 class="text-xl font-bold mt-6 mb-3 text-emerald-600 dark:text-emerald-400">Passo a Passo: A Nova Análise de Receitas e Despesas</h3>
+                    <p class="mb-4">Para mapear seu fluxo de caixa de maneira realista, dividiremos suas saídas em três categorias essenciais, incluindo as despesas extraordinárias que dão sentido ao seu esforço diário:</p>
+                    
+                    <ol class="space-y-4 my-6 list-decimal pl-5">
+                        <li>
+                            <strong>Identifique suas Receitas Líquidas:</strong> Registre todas as suas fontes de renda após os descontos em folha (impostos e previdência). Considere salário, pró-labore, renda extra e rendimentos de aluguéis.
+                        </li>
+                        <li>
+                            <strong>Classifique suas Despesas em Três Categorias:</strong>
+                            <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600 dark:text-slate-400">
+                                <li><strong class="text-slate-800 dark:text-slate-200">Despesas Fixas:</strong> Gastos recorrentes e previsíveis indispensáveis para a sua subsistência (ex: aluguel, condomínio, contas de água/energia, internet).</li>
+                                <li><strong class="text-slate-800 dark:text-slate-200">Despesas Variáveis:</strong> Gastos que oscilam de acordo com o consumo ou estilo de vida (ex: alimentação, combustível, lazer corriqueiro).</li>
+                                <li><strong class="text-slate-800 dark:text-slate-200">Despesas de Concretização (Sonhos e Desejos):</strong> Gastos não-corriqueiros, mas que representam as metas de longo prazo pelas quais você trabalha (ex: poupança para viagem, troca do carro, reforma da casa).</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Calcule o Saldo Líquido:</strong> Utilize a fórmula matemática básica: 
+                            <div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg text-center font-mono my-2 text-emerald-600 dark:text-emerald-400 font-bold">
+                                Saldo = Receitas Totais - (Fixas + Variáveis + Concretização)
+                            </div>
+                        </li>
+                    </ol>
+
+                    <!-- WORKSPACE: CALCULADORA DE DIAGNÓSTICO -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Calculadora de Diagnóstico Financeiro</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Insira seus dados mensais abaixo para visualizar seu fluxo de caixa real:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Receita Líquida Mensal (R$)</label>
+                                    <input type="number" id="calc-receita" value="5000" oninput="runBudgetDiagnostic()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Despesas Fixas (R$)</label>
+                                    <input type="number" id="calc-fixas" value="2300" oninput="runBudgetDiagnostic()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Despesas Variáveis (R$)</label>
+                                    <input type="number" id="calc-variaveis" value="1200" oninput="runBudgetDiagnostic()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Metas/Concretização (R$)</label>
+                                    <input type="number" id="calc-concretizacao" value="500" oninput="runBudgetDiagnostic()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col items-center justify-center bg-white dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <div class="w-40 h-40 relative">
+                                    <canvas id="diag-chart"></canvas>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <span class="text-xs text-slate-500 dark:text-slate-400 block">Saldo Líquido Sobrando</span>
+                                    <span id="diag-saldo-val" class="text-lg font-extrabold text-emerald-500">R$ 1.000,00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-emerald-500/10 rounded-lg" id="diag-feedback">
+                            <p class="text-xs text-emerald-700 dark:text-emerald-400"><strong>Dica do Coach:</strong> Excelente! Você possui capacidade de poupança positiva. Está pronto para acelerar seus investimentos.</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'cap2',
+                title: 'Capítulo 2: Orçamento: Seu GPS Financeiro',
+                subtitle: 'A Regra Revisitada 50-30-20',
+                imageUrl: 'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">Um orçamento não é uma restrição que limita sua liberdade; é um guia que permite que você decida para onde seu dinheiro vai, em vez de se perguntar para onde ele foi.</p>
+                    
+                    <h3 class="text-xl font-bold mt-6 mb-3 text-emerald-600 dark:text-emerald-400">A Regra 50-30-20 Revisitada</h3>
+                    <p class="mb-4">Para equilibrar o consumo presente com a segurança futura, distribua sua renda líquida utilizando a seguinte métrica ideal:</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+                        <div class="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-xl border border-blue-100 dark:border-blue-900">
+                            <span class="text-xl font-extrabold text-blue-600 dark:text-blue-400 block">50%</span>
+                            <span class="text-sm font-bold block mb-1">Necessidades</span>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Despesas fixas e variáveis cruciais de sobrevivência (moradia, saúde, mercado).</p>
+                        </div>
+                        <div class="p-4 bg-amber-50 dark:bg-amber-950/20 rounded-xl border border-amber-100 dark:border-amber-900">
+                            <span class="text-xl font-extrabold text-amber-600 dark:text-amber-400 block">30%</span>
+                            <span class="text-sm font-bold block mb-1">Estilo de Vida</span>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Desejos, lazer, hobbies, jantares fora e suas metas de concretização de curto prazo.</p>
+                        </div>
+                        <div class="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-xl border border-emerald-100 dark:border-emerald-900">
+                            <span class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 block">20%</span>
+                            <span class="text-sm font-bold block mb-1">Metas de Longo Prazo</span>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Investimentos recorrentes, quitação acelerada de débitos e aposentadoria.</p>
+                        </div>
+                    </div>
+
+                    <!-- WORKSPACE: COMPARADOR DE ORÇAMENTO -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="line-chart" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Simulador de Divisão Orçamentária</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Insira o valor que quer simular e veja a proporção ideal no gráfico dinâmico:</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Digite sua renda líquida desejada (R$):</label>
+                                <div class="relative rounded-lg shadow-sm">
+                                    <input type="number" id="sim-renda" value="6000" oninput="runBudgetSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-slate-500 text-xs">R$</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between border-b pb-1">
+                                        <span>Necessidades (50%):</span>
+                                        <span id="sim-necessidades" class="font-bold text-blue-600">R$ 3.000,00</span>
+                                    </div>
+                                    <div class="flex justify-between border-b pb-1">
+                                        <span>Desejos/Estilo de Vida (30%):</span>
+                                        <span id="sim-desejos" class="font-bold text-amber-600">R$ 1.800,00</span>
+                                    </div>
+                                    <div class="flex justify-between border-b pb-1">
+                                        <span>Futuro/Investimentos (20%):</span>
+                                        <span id="sim-futuro" class="font-bold text-emerald-600">R$ 1.200,00</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center">
+                                    <div class="w-36 h-36">
+                                        <canvas id="sim-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'cap3',
+                title: 'Capítulo 3: Quitação de Dívidas',
+                subtitle: 'Estratégias Avançadas Contra Juros',
+                imageUrl: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">As dívidas corroem a capacidade de gerar riqueza. Para eliminá-las com eficácia, é preciso compreender a anatomia de cada débito e o impacto devastador dos juros compostos contra o seu bolso.</p>
+                    
+                    <h3 class="text-lg font-bold mt-6 mb-2 text-emerald-600 dark:text-emerald-400">O Peso das Taxas de Juros e o CET</h3>
+                    <p class="mb-4">Antes de desenhar uma rota de pagamento, você deve levantar o <strong>Custo Efetivo Total (CET)</strong> de cada contrato. O CET representa a taxa real da dívida, somando os juros nominais, impostos (como o IOF), seguros e taxas administrativas ocultas.</p>
+                    
+                    <h3 class="text-lg font-bold mt-6 mb-2 text-emerald-600 dark:text-emerald-400">Método Bola de Neve vs. Método Avalanche</h3>
+                    <p class="mb-4">Existem duas formas cientificamente comprovadas para quitar dívidas:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-amber-600 dark:text-amber-400 mb-1">1. Bola de Neve (Psicológico)</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">Consiste em listar e pagar as dívidas do <strong>menor saldo para o maior</strong>. Você ganha motivação rápida eliminando pequenos credores do caminho.</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400 mb-1">2. Avalanche (Matemático)</h4>
+                            <p class="text-xs text-slate-600 dark:text-slate-400">Consiste em priorizar e liquidar as dívidas com as <strong>maiores taxas de juros (CET)</strong>. É o método mais barato no longo prazo.</p>
+                        </div>
+                    </div>
+
+                    <!-- WORKSPACE: SIMULADOR DE QUITAÇÃO DE DÍVIDAS -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                                <h4 class="font-bold text-lg">Simulador de Estratégias</h4>
+                            </div>
+                            <span class="text-xs bg-emerald-500/10 text-emerald-600 px-2.5 py-1 rounded-full font-bold uppercase">Interativo</span>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Defina os valores das suas 3 principais dívidas simuladas:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border">
+                                    <span class="text-xs font-bold block mb-1">Dívida A (Cartão)</span>
+                                    <div class="space-y-1">
+                                        <input type="number" id="diva-val" value="4000" class="w-full text-xs p-1 border rounded" placeholder="Valor">
+                                        <input type="number" id="diva-juros" value="15" class="w-full text-xs p-1 border rounded" placeholder="Juros % a.m.">
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border">
+                                    <span class="text-xs font-bold block mb-1">Dívida B (Cheque Especial)</span>
+                                    <div class="space-y-1">
+                                        <input type="number" id="divb-val" value="1500" class="w-full text-xs p-1 border rounded" placeholder="Valor">
+                                        <input type="number" id="divb-juros" value="8" class="w-full text-xs p-1 border rounded" placeholder="Juros % a.m.">
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border">
+                                    <span class="text-xs font-bold block mb-1">Dívida C (Amigo/Família)</span>
+                                    <div class="space-y-1">
+                                        <input type="number" id="divc-val" value="2000" class="w-full text-xs p-1 border rounded" placeholder="Valor">
+                                        <input type="number" id="divc-juros" value="2" class="w-full text-xs p-1 border rounded" placeholder="Juros % a.m.">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-bold text-slate-500">Aporte mensal extra para pagar dívidas:</span>
+                                <input type="number" id="extra-pay" value="400" class="w-24 p-1 text-xs border rounded">
+                            </div>
+
+                            <div class="flex gap-2">
+                                <button onclick="calculateDebtSimulator('bolaneve')" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs py-2 px-3 rounded-lg transition">Simular Bola de Neve</button>
+                                <button onclick="calculateDebtSimulator('avalanche')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-2 px-3 rounded-lg transition">Simular Avalanche</button>
+                            </div>
+                        </div>
+
+                        <div id="debt-result" class="hidden p-4 bg-emerald-500/10 rounded-xl">
+                            <!-- Resultados da quitação -->
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'cap4',
+                title: 'Capítulo 4: Reserva de Emergência',
+                subtitle: 'Sua Segurança e a Regra Invisível',
+                imageUrl: 'https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">A reserva de emergência é o escudo protetor da sua saúde financeira. Ela serve única e exclusivamente para absorver os impactos de imprevistos graves (perda de receita, problemas críticos de saúde, manutenção essencial de trabalho) sem endividamento.</p>
+                    
+                    <!-- ALERTA DE SEGURANÇA -->
+                    <div class="my-6 p-5 bg-rose-50 dark:bg-rose-950/30 border-l-4 border-rose-500 rounded-r-xl">
+                        <h4 class="font-bold text-rose-800 dark:text-rose-400 flex items-center gap-2 mb-2">
+                            <i data-lucide="alert-triangle" class="w-5 h-5"></i> A Regra de Ouro: Reserva não é para realizar sonhos!
+                        </h4>
+                        <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                            É imperativo estabelecer uma barreira mental intransponível: <strong>a reserva de emergência nunca deve ser usada para comprar desejos ou financiar viagens e metas pessoais.</strong> Utilizar a reserva para gastos de estilo de vida é um risco gravíssimo. Assuntos de segurança e assuntos de ambição devem ser tratados separadamente. Crie reservas específicas para as suas despesas de concretização e preserve o seu colchão de segurança intacto!
+                        </p>
+                    </div>
+
+                    <h3 class="text-xl font-bold mt-6 mb-3 text-emerald-600 dark:text-emerald-400">Dimensões Recomendadas</h3>
+                    <p class="mb-4">O volume ideal deve cobrir entre <strong>6 a 12 meses</strong> do seu custo de vida mínimo fixado mensalmente:</p>
+
+                    <!-- WORKSPACE: CONSTRUÇÃO DO BOLETO DO BEM -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="shield" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Calculadora do "Boleto do Bem"</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Veja quanto você precisa acumular de forma isolada:</p>
+                        
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Custo Fixo de Vida Mensal (R$):</label>
+                                    <input type="number" id="res-custo" value="3000" oninput="calculateReserve()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Meses de Cobertura:</label>
+                                    <select id="res-meses" onchange="calculateReserve()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                        <option value="6">6 Meses (Empregado CLT)</option>
+                                        <option value="9">9 Meses (Autônomo com Renda Moderada)</option>
+                                        <option value="12" selected>12 Meses (Empresário / Profissional Liberal)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-emerald-500/10 rounded-xl flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-500 dark:text-slate-400 block font-semibold">Tamanho Recomendado da sua Reserva:</span>
+                                    <span id="res-total-val" class="text-2xl font-extrabold text-emerald-600">R$ 36.000,00</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs text-slate-500 dark:text-slate-400 block">Sugerido para investir:</span>
+                                    <span class="text-sm font-bold block text-slate-700 dark:text-slate-300">Tesouro Selic ou CDB Liquidez Diária</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'cap5',
+                title: 'Capítulo 5: Investimentos Inteligentes',
+                subtitle: 'Multiplicação de Riqueza e Custos Ocultos',
+                imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">Depois de ter a casa organizada (sem dívidas e com reserva de emergência montada), é hora de colocar o seu dinheiro para trabalhar em ativos eficientes.</p>
+                    
+                    <h3 class="text-lg font-bold mt-6 mb-2 text-emerald-600 dark:text-emerald-400">A Anatomia dos Custos Ocultos e Tributação</h3>
+                    <p class="mb-4">Não se engane apenas pelo rendimento nominal. Você deve calcular o rendimento real deduzindo as taxas de administração, taxas de carregamento e o impacto tributário (como a tabela regressiva de IR e o come-cotas).</p>
+
+                    <!-- WORKSPACE: SIMULADOR DE JUROS COMPOSTOS -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Simulador de Crescimento Patrimonial</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Veja o poder dos juros compostos trabalhando para você no longo prazo:</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Aporte Mensal Recorrente (R$):</label>
+                                    <input type="number" id="compound-aporte" value="500" oninput="runCompoundSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Taxa de Juros Anual Estimada (%):</label>
+                                    <input type="number" id="compound-taxa" value="10" oninput="runCompoundSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Tempo de Aplicação (Anos):</label>
+                                    <input type="range" id="compound-tempo" min="1" max="30" value="15" oninput="runCompoundSimulator()" class="w-full accent-emerald-500">
+                                    <span class="text-xs text-slate-500 dark:text-slate-400 font-bold block mt-1" id="compound-tempo-val">15 anos</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <div class="w-full h-40">
+                                    <canvas id="compound-chart"></canvas>
+                                </div>
+                                <div class="flex justify-between items-center mt-3 text-xs">
+                                    <div>
+                                        <span class="text-slate-500">Total Investido:</span>
+                                        <span id="compound-investido" class="font-bold block">R$ 90.000,00</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-emerald-500 font-semibold">Total Acumulado:</span>
+                                        <span id="compound-total" class="font-extrabold text-lg text-emerald-500 block">R$ 207.000,00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'conclusion',
+                title: 'Conclusão',
+                subtitle: 'Sua Jornada de Liberdade Financeira',
+                imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">O planejamento financeiro não é um evento único, mas sim um estilo de vida sustentável baseado em hábitos saudáveis e autoconhecimento.</p>
+                    <p class="mb-6">Com perseverança, você quebrará barreiras psicológicas, blindará suas finanças de emergências reais e verá o patrimônio trabalhar ativamente para seu bem-estar futuro.</p>
+                    
+                    <div class="p-6 bg-emerald-500/10 rounded-2xl border border-emerald-500/30 text-center">
+                        <i data-lucide="trophy" class="w-12 h-12 text-emerald-500 mx-auto mb-3"></i>
+                        <h4 class="font-bold text-lg text-emerald-700 dark:text-emerald-400">Parabéns pela Conclusão do Aprendizado!</h4>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mt-2 max-w-md mx-auto">Você acabou de cruzar a barreira do tabu financeiro. O mapa está entregue. A execução do primeiro passo estratégico pertence apenas a você!</p>
+                        
+                        <button onclick="resetBook()" class="mt-4 text-xs font-semibold hover:underline text-emerald-600 dark:text-emerald-400">Reiniciar Leitura</button>
+                    </div>
+                `
+            }
+        ];
+
+        // Core Functions to Render Reader Flow
+        function initApp() {
+            renderChaptersMenu();
+            renderCurrentChapter();
+            lucide.createIcons();
+            detectSwipes();
+            setupPWAInstall();
+        }
+
+        // REGISTER SERVICE WORKER
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrado com sucesso:', reg.scope))
+                    .catch(err => console.error('Erro ao registrar Service Worker:', err));
+            });
+        }
+
+        // PWA Installation Prompts Handler
+        let deferredPrompt;
+        function setupPWAInstall() {
+            const installBtn = document.getElementById('pwa-install-btn');
+            const mobileInstallBtn = document.getElementById('mobile-install-btn');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                // Show installation buttons
+                if (installBtn) installBtn.classList.remove('hidden');
+                if (mobileInstallBtn) mobileInstallBtn.classList.remove('hidden');
+            });
+
+            const triggerInstall = async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showToast("Obrigado por instalar nosso aplicativo!", "success");
+                }
+                deferredPrompt = null;
+                if (installBtn) installBtn.classList.add('hidden');
+                if (mobileInstallBtn) mobileInstallBtn.classList.add('hidden');
+            };
+
+            if (installBtn) installBtn.addEventListener('click', triggerInstall);
+            if (mobileInstallBtn) mobileInstallBtn.addEventListener('click', triggerInstall);
+
+            window.addEventListener('appinstalled', () => {
+                showToast("Aplicativo instalado com sucesso na sua tela inicial!", "success");
+                if (installBtn) installBtn.classList.add('hidden');
+                if (mobileInstallBtn) mobileInstallBtn.classList.add('hidden');
+            });
+        }
+
+        function renderChaptersMenu() {
+            const menuDesktop = document.getElementById('nav-chapters');
+            const menuMobile = document.getElementById('nav-chapters-mobile');
+            
+            let html = '';
+            ebookData.forEach((ch, idx) => {
+                const isActive = idx === currentChapterIndex;
+                const activeClasses = isActive 
+                    ? 'bg-emerald-500/15 border-l-4 border-emerald-500 text-emerald-700 dark:text-emerald-400 font-bold' 
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300';
+                
+                html += `
+                    <button onclick="gotoChapter(${idx})" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left text-sm transition-all duration-150 ${activeClasses}">
+                        <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-200/50 dark:bg-slate-800/50 text-xs">${idx + 1}</span>
+                        <span class="truncate">${ch.title}</span>
+                    </button>
+                `;
+            });
+            
+            menuDesktop.innerHTML = html;
+            menuMobile.innerHTML = html;
+        }
+
+        function renderCurrentChapter() {
+            const current = ebookData[currentChapterIndex];
+            
+            document.getElementById('chapter-title-hero').innerText = current.title;
+            document.getElementById('chapter-subtitle-hero').innerText = current.subtitle;
+            document.getElementById('mobile-chapter-title').innerText = current.title;
+            
+            const heroImg = document.getElementById('hero-cover-image');
+            if (heroImg) {
+                heroImg.src = current.imageUrl;
+            }
+            
+            const contentPane = document.getElementById('chapter-content');
+            contentPane.innerHTML = current.content;
+            
+            document.getElementById('prev-chapter-btn').style.visibility = currentChapterIndex === 0 ? 'hidden' : 'visible';
+            const nextBtn = document.getElementById('next-chapter-btn');
+            if (currentChapterIndex === ebookData.length - 1) {
+                nextBtn.innerHTML = `<span>Finalizar</span> <i data-lucide="check" class="w-4 h-4"></i>`;
+            } else {
+                nextBtn.innerHTML = `<span>Próximo Capítulo</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+            }
+
+            document.getElementById('reading-pane').scrollTop = 0;
+
+            if (current.id === 'cap1') {
+                setTimeout(runBudgetDiagnostic, 100);
+            } else if (current.id === 'cap2') {
+                setTimeout(runBudgetSimulator, 100);
+            } else if (current.id === 'cap4') {
+                setTimeout(calculateReserve, 100);
+            } else if (current.id === 'cap5') {
+                setTimeout(runCompoundSimulator, 100);
+            }
+
+            updateProgress();
+            renderChaptersMenu();
+            lucide.createIcons();
+        }
+
+        function gotoChapter(index) {
+            currentChapterIndex = index;
+            renderCurrentChapter();
+            closeDrawer();
+        }
+
+        function navigateChapter(direction) {
+            const target = currentChapterIndex + direction;
+            if (target >= 0 && target < ebookData.length) {
+                gotoChapter(target);
+            } else if (target === ebookData.length) {
+                showToast("🏆 Parabéns! Você concluiu a leitura inteira!", "success");
+            }
+        }
+
+        function updateProgress() {
+            const percent = Math.round((currentChapterIndex / (ebookData.length - 1)) * 100);
+            document.getElementById('reading-progress-bar').style.width = percent + '%';
+            document.getElementById('reading-progress-text').innerText = percent + '%';
+        }
+
+        function resetBook() {
+            gotoChapter(0);
+            showToast("Leitura reiniciada com sucesso!", "info");
+        }
+
+        // FONT SIZE CONTROLS
+        function changeFontSize(direction) {
+            readerFontSize = Math.max(14, Math.min(24, readerFontSize + direction));
+            document.getElementById('chapter-content').style.fontSize = readerFontSize + 'px';
+            showToast(`Fonte ajustada para: ${readerFontSize}px`, "info");
+        }
+
+        // THEME CONTROLS
+        function setTheme(mode) {
+            readerTheme = mode;
+            const mainContainer = document.getElementById('main-container');
+            const sidebar = document.getElementById('sidebar');
+            const htmlEl = document.documentElement;
+
+            htmlEl.classList.remove('dark');
+            mainContainer.classList.remove('theme-sepia');
+            sidebar.classList.remove('theme-sepia');
+
+            if (mode === 'dark') {
+                htmlEl.classList.add('dark');
+            } else if (mode === 'sepia') {
+                mainContainer.classList.add('theme-sepia');
+                sidebar.classList.add('theme-sepia');
+            }
+            
+            showToast(`Tema ${mode.toUpperCase()} aplicado!`, "info");
+        }
+
+        function toggleMobileTheme() {
+            const htmlEl = document.documentElement;
+            if (htmlEl.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        }
+
+        function showToast(message, type = "info") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgClass = "bg-slate-800 dark:bg-slate-950 text-white";
+            let icon = "info";
+            
+            if (type === "success") {
+                bgClass = "bg-emerald-600 text-white";
+                icon = "check-circle";
+            } else if (type === "error") {
+                bgClass = "bg-rose-600 text-white";
+                icon = "alert-circle";
+            }
+            
+            toast.className = `flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg transition-all duration-300 transform translate-y-2 opacity-0 max-w-sm ${bgClass}`;
+            toast.innerHTML = `
+                <i data-lucide="${icon}" class="w-5 h-5 flex-shrink-0"></i>
+                <span class="text-xs font-semibold leading-tight">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // ==========================================
+        // DYNAMIC WORKSPACE SCRIPTS (CALCULATORS)
+        // ==========================================
+
+        // CHAPTER 1: BUDGET DIAGNOSTIC
+        function runBudgetDiagnostic() {
+            const receita = parseFloat(document.getElementById('calc-receita').value) || 0;
+            const fixas = parseFloat(document.getElementById('calc-fixas').value) || 0;
+            const variaveis = parseFloat(document.getElementById('calc-variaveis').value) || 0;
+            const concretizacao = parseFloat(document.getElementById('calc-concretizacao').value) || 0;
+
+            const totalDespesas = fixas + variaveis + concretizacao;
+            const saldo = receita - totalDespesas;
+
+            const saldoEl = document.getElementById('diag-saldo-val');
+            saldoEl.innerText = saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            if (saldo >= 0) {
+                saldoEl.className = "text-lg font-extrabold text-emerald-500";
+                document.getElementById('diag-feedback').innerHTML = `
+                    <p class="text-xs text-emerald-700 dark:text-emerald-400"><strong>Dica do Coach:</strong> Excelente! Você possui capacidade de poupança positiva. Está pronto para acelerar seus investimentos.</p>
+                `;
+            } else {
+                saldoEl.className = "text-lg font-extrabold text-rose-500";
+                document.getElementById('diag-feedback').innerHTML = `
+                    <p class="text-xs text-rose-700 dark:text-rose-400"><strong>Alerta do Coach:</strong> Você está no vermelho! Identifique gargalos e corte despesas variáveis imediatamente para zerar esse déficit.</p>
+                `;
+            }
+
+            const ctx = document.getElementById('diag-chart');
+            if (!ctx) return;
+
+            if (activeCharts['diag-chart']) {
+                activeCharts['diag-chart'].destroy();
+            }
+
+            activeCharts['diag-chart'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fixas', 'Variáveis', 'Sonhos', 'Sobra'],
+                    datasets: [{
+                        data: [fixas, variaveis, concretizacao, Math.max(0, saldo)],
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#10b981/30'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // CHAPTER 2: BUDGET 50-30-20 SIMULATOR
+        function runBudgetSimulator() {
+            const renda = parseFloat(document.getElementById('sim-renda').value) || 0;
+
+            const nec = renda * 0.50;
+            const des = renda * 0.30;
+            const fut = renda * 0.20;
+
+            document.getElementById('sim-necessidades').innerText = nec.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('sim-desejos').innerText = des.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('sim-futuro').innerText = fut.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            const ctx = document.getElementById('sim-chart');
+            if (!ctx) return;
+
+            if (activeCharts['sim-chart']) {
+                activeCharts['sim-chart'].destroy();
+            }
+
+            activeCharts['sim-chart'] = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Necessidades (50%)', 'Estilo de Vida (30%)', 'Investimentos (20%)'],
+                    datasets: [{
+                        data: [nec, des, fut],
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // CHAPTER 3: DEBT SIMULATOR
+        function calculateDebtSimulator(method) {
+            let divAVal = parseFloat(document.getElementById('diva-val').value) || 0;
+            let divAJuros = (parseFloat(document.getElementById('diva-juros').value) || 0) / 100;
+
+            let divBVal = parseFloat(document.getElementById('divb-val').value) || 0;
+            let divBJuros = (parseFloat(document.getElementById('divb-juros').value) || 0) / 100;
+
+            let divCVal = parseFloat(document.getElementById('divc-val').value) || 0;
+            let divCJuros = (parseFloat(document.getElementById('divc-juros').value) || 0) / 100;
+
+            let extra = parseFloat(document.getElementById('extra-pay').value) || 0;
+
+            let debts = [
+                { name: 'Cartão de Crédito', balance: divAVal, rate: divAJuros },
+                { name: 'Cheque Especial', balance: divBVal, rate: divBJuros },
+                { name: 'Amigo/Família', balance: divCVal, rate: divCJuros }
+            ];
+
+            if (method === 'bolaneve') {
+                debts.sort((a, b) => a.balance - b.balance);
+            } else {
+                debts.sort((a, b) => b.rate - a.rate);
+            }
+
+            let month = 0;
+            let totalInterestPaid = 0;
+
+            while (debts.some(d => d.balance > 0) && month < 120) {
+                month++;
+                let availableExtra = extra;
+                
+                for (let i = 0; i < debts.length; i++) {
+                    if (debts[i].balance > 0) {
+                        let interest = debts[i].balance * debts[i].rate;
+                        totalInterestPaid += interest;
+                        debts[i].balance += interest;
+                    }
+                }
+
+                for (let i = 0; i < debts.length; i++) {
+                    if (debts[i].balance > 0 && availableExtra > 0) {
+                        let payment = Math.min(debts[i].balance, availableExtra);
+                        debts[i].balance -= payment;
+                        availableExtra -= payment;
+                    }
+                }
+            }
+
+            const resultContainer = document.getElementById('debt-result');
+            resultContainer.classList.remove('hidden');
+
+            resultContainer.innerHTML = `
+                <h5 class="font-bold text-sm mb-1 text-emerald-800 dark:text-emerald-400">Resultado da Simulação (${method === 'bolaneve' ? 'Bola de Neve' : 'Avalanche'}):</h5>
+                <p class="text-xs text-slate-700 dark:text-slate-300">
+                    Sua quitação completa ocorrerá em <strong>${month} meses</strong>. <br>
+                    O montante total que você gastará de juros com os bancos será de <strong>${totalInterestPaid.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</strong>.
+                </p>
+                <p class="text-[10px] mt-2 italic text-slate-500">Dica: Use a portabilidade de crédito para baixar os juros de grandes taxas sempre que possível.</p>
+            `;
+        }
+
+        // CHAPTER 4: EMERGENCY RESERVE
+        function calculateReserve() {
+            const custo = parseFloat(document.getElementById('res-custo').value) || 0;
+            const meses = parseInt(document.getElementById('res-meses').value) || 6;
+            const total = custo * meses;
+
+            document.getElementById('res-total-val').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // CHAPTER 5: COMPOUND INTEREST WEALTH BUILDER
+        function runCompoundSimulator() {
+            const aporte = parseFloat(document.getElementById('compound-aporte').value) || 0;
+            const jurosAnual = parseFloat(document.getElementById('compound-taxa').value) || 0;
+            const anos = parseInt(document.getElementById('compound-tempo').value) || 10;
+
+            document.getElementById('compound-tempo-val').innerText = `${anos} anos`;
+
+            const taxaMensal = Math.pow(1 + (jurosAnual / 100), 1 / 12) - 1;
+            const meses = anos * 12;
+
+            let totalInvestido = 0;
+            let totalAcumulado = 0;
+            let chartLabels = [];
+            let chartDataInvestido = [];
+            let chartDataAcumulado = [];
+
+            for (let m = 1; m <= meses; m++) {
+                totalInvestido += aporte;
+                totalAcumulado = (totalAcumulado + aporte) * (1 + taxaMensal);
+
+                if (m % 12 === 0) {
+                    chartLabels.push(`Ano ${m / 12}`);
+                    chartDataInvestido.push(totalInvestido);
+                    chartDataAcumulado.push(Math.round(totalAcumulado));
+                }
+            }
+
+            document.getElementById('compound-investido').innerText = totalInvestido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('compound-total').innerText = totalAcumulado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            const ctx = document.getElementById('compound-chart');
+            if (!ctx) return;
+
+            if (activeCharts['compound-chart']) {
+                activeCharts['compound-chart'].destroy();
+            }
+
+            activeCharts['compound-chart'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'Total Acumulado',
+                            data: chartDataAcumulado,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Total Investido',
+                            data: chartDataInvestido,
+                            borderColor: '#94a3b8',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            ticks: { display: false },
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeDrawerBtn = document.getElementById('close-drawer-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+        const drawerContent = document.getElementById('drawer-content');
+
+        mobileMenuBtn.addEventListener('click', openDrawer);
+        closeDrawerBtn.addEventListener('click', closeDrawer);
+        mobileDrawer.addEventListener('click', (e) => {
+            if (e.target === mobileDrawer) closeDrawer();
+        });
+
+        function openDrawer() {
+            mobileDrawer.classList.remove('hidden');
+            setTimeout(() => {
+                mobileDrawer.classList.remove('opacity-0');
+                drawerContent.classList.remove('-translate-x-full');
+            }, 10);
+        }
+
+        function closeDrawer() {
+            drawerContent.classList.add('-translate-x-full');
+            mobileDrawer.classList.add('opacity-0');
+            setTimeout(() => {
+                mobileDrawer.classList.add('hidden');
+            }, 300);
+        }
+
+        function detectSwipes() {
+            let touchstartX = 0;
+            let touchendX = 0;
+            const pane = document.getElementById('reading-pane');
+            
+            pane.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+            }, {passive: true});
+            
+            pane.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                handleGesture();
+            }, {passive: true});
+            
+            function handleGesture() {
+                const threshold = 80;
+                if (touchendX < touchstartX - threshold) {
+                    navigateChapter(1);
+                }
+                if (touchendX > touchstartX + threshold) {
+                    navigateChapter(-1);
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
+
+```
