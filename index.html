@@ -78,14 +78,32 @@
 </head>
 <body class="h-full bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200 font-sans">
 
+    <!-- ALERTA DE ATUALIZAÇÃO DISPONÍVEL (Instalação em segundo plano) -->
+    <div id="update-banner" class="hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 border border-emerald-500 animate-bounce">
+        <div class="flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-5 h-5 flex-shrink-0 animate-pulse"></i>
+            <span class="text-xs font-bold leading-tight">Uma nova versão deste e-book está disponível!</span>
+        </div>
+        <button onclick="updateApplication()" class="bg-white hover:bg-emerald-50 text-emerald-800 font-extrabold text-[10px] uppercase tracking-wider px-3 py-1.5 rounded-lg transition-transform active:scale-95 flex-shrink-0">
+            Atualizar Agora
+        </button>
+    </div>
+
     <div class="flex h-full overflow-hidden">
         
         <!-- SIDEBAR NAVIGATION (Desktop) -->
         <aside id="sidebar" class="hidden md:flex flex-col w-80 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex-shrink-0 transition-colors duration-200">
             <div class="p-6 border-b border-slate-200 dark:border-slate-800">
-                <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-500 mb-2">
-                    <i data-lucide="gem" class="w-6 h-6"></i>
-                    <span class="font-extrabold tracking-wider text-sm uppercase">Guia Prático</span>
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
+                        <i data-lucide="gem" class="w-6 h-6"></i>
+                        <span class="font-extrabold tracking-wider text-sm uppercase">Guia Prático</span>
+                    </div>
+                    <!-- VERSÃO VISUAL NO MENU -->
+                    <button onclick="openChangelogModal()" class="text-[10px] bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 font-bold px-2 py-0.5 rounded-full transition flex items-center gap-1">
+                        <span>v1.1.0</span>
+                        <i data-lucide="history" class="w-3 h-3"></i>
+                    </button>
                 </div>
                 <h1 class="text-xl font-bold tracking-tight">Planejamento Financeiro</h1>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Domine suas Finanças, Construa seu Futuro</p>
@@ -148,8 +166,12 @@
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
                 <div class="text-center">
-                    <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-500 uppercase tracking-wider block">E-book Interativo</span>
-                    <span class="text-sm font-bold truncate block max-w-[180px]" id="mobile-chapter-title">Introdução</span>
+                    <!-- VERSÃO NO MOBILE HEADER -->
+                    <button onclick="openChangelogModal()" class="text-[9px] bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 font-bold px-2 py-0.5 rounded-full transition mx-auto flex items-center gap-1 mb-0.5">
+                        <span>v1.1.0</span>
+                        <i data-lucide="history" class="w-2.5 h-2.5"></i>
+                    </button>
+                    <span class="text-sm font-bold truncate block max-w-[150px]" id="mobile-chapter-title">Introdução</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <button id="mobile-install-btn" class="hidden p-2 text-emerald-600 dark:text-emerald-500 rounded hover:bg-slate-100 dark:hover:bg-slate-800" title="Instalar aplicativo no celular">
@@ -162,7 +184,7 @@
                 </div>
             </header>
 
-            <!-- Mobile Drawer Menu (Hidden by default) -->
+            <!-- Mobile Drawer Menu -->
             <div id="mobile-drawer" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity duration-300 opacity-0">
                 <div class="absolute top-0 left-0 bottom-0 w-80 bg-white dark:bg-slate-950 flex flex-col shadow-2xl h-full transform -translate-x-full transition-transform duration-300" id="drawer-content">
                     <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
@@ -180,17 +202,12 @@
             <!-- Central Reading Window -->
             <div class="flex-1 overflow-y-auto px-4 md:px-12 py-8 max-w-4xl mx-auto w-full" id="reading-pane">
                 
-                <!-- CAPA / HERO BANNER COM SUPER CONTRASTE -->
+                <!-- CAPA / HERO BANNER -->
                 <div id="chapter-hero" class="mb-8 rounded-2xl overflow-hidden relative shadow-lg h-64 md:h-80 flex items-center justify-center p-6 text-center select-none bg-slate-950">
-                    
-                    <!-- Imagem de Capa do Capítulo -->
                     <img id="hero-cover-image" class="absolute inset-0 w-full h-full object-cover transition-all duration-300 scale-105" alt="Capa do Capítulo">
-                    
-                    <!-- Película escura dupla para garantir legibilidade perfeita de textos brancos -->
                     <div class="absolute inset-0 bg-slate-950/40 z-10"></div>
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-950/30 z-10"></div>
 
-                    <!-- Conteúdo de texto centralizado com efeito drop shadow -->
                     <div class="relative z-20 max-w-2xl px-4">
                         <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-3 text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]" id="chapter-title-hero">Carregando...</h2>
                         <p class="text-emerald-400 text-sm md:text-lg font-bold uppercase tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]" id="chapter-subtitle-hero"></p>
@@ -218,17 +235,57 @@
         </main>
     </div>
 
+    <!-- MODAL DE HISTÓRICO DE VERSÕES (CHANGELOG) -->
+    <div id="changelog-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-950 rounded-3xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 duration-200">
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-900/50">
+                <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
+                    <i data-lucide="history" class="w-5 h-5"></i>
+                    <h3 class="font-extrabold text-lg">Histórico de Versões</h3>
+                </div>
+                <button onclick="closeChangelogModal()" class="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-6 max-h-[350px] overflow-y-auto space-y-6">
+                <!-- Versão Atual -->
+                <div class="border-l-2 border-emerald-500 pl-4 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-sm block">v1.1.0</span>
+                        <span class="text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-2.5 py-0.5 rounded-full">Versão Atual</span>
+                    </div>
+                    <ul class="text-xs text-slate-500 dark:text-slate-400 list-disc pl-4 space-y-1">
+                        <li>Adicionado controle de versão e detecção automática de atualizações.</li>
+                        <li>Correção no Capítulo 4: Blindagem da reserva de emergência contra compras de impulso.</li>
+                        <li>Inclusão do Histórico de Alterações (Changelog) interativo.</li>
+                    </ul>
+                </div>
+                <!-- Versão Anterior -->
+                <div class="border-l-2 border-slate-300 dark:border-slate-700 pl-4 space-y-2">
+                    <span class="font-extrabold text-sm block text-slate-500">v1.0.0</span>
+                    <ul class="text-xs text-slate-500 dark:text-slate-400 list-disc pl-4 space-y-1">
+                        <li>Lançamento oficial do e-book com 5 capítulos interativos.</li>
+                        <li>Calculadoras financeiras e gráficos dinâmicos integrados.</li>
+                        <li>Suporte a leitura offline via Progressive Web App (PWA).</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-800 text-center bg-slate-50 dark:bg-slate-900/50">
+                <button onclick="closeChangelogModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-xl text-xs transition">
+                    Fechar Painel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
 
     <!-- DATA STORE FOR EBOOK & APP CONFIG -->
     <script>
-        // Global State
         let currentChapterIndex = 0;
         let readerTheme = 'light';
         let readerFontSize = 17; // px
-        
-        // Dynamic charts cache
         let activeCharts = {};
 
         // Comprehensive E-book Content Object with Curated Background Images for Cover Section
@@ -261,7 +318,7 @@
                 subtitle: 'Entenda sua Realidade Financeira',
                 imageUrl: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200',
                 content: `
-                    <p class="mb-4">Antes de planejar o futuro, você precisa compreender o presente. Este diagnóstico inicial é o alicerce de toda a sua estratégia financeira.</p>
+                    <p class="mb-4">Antes de planejar o futuro, você precisa compreender o presente. Este diagnóstico inicial é o alecerce de toda a sua estratégia financeira.</p>
                     <h3 class="text-xl font-bold mt-6 mb-3 text-emerald-600 dark:text-emerald-400">Passo a Passo: A Nova Análise de Receitas e Despesas</h3>
                     <p class="mb-4">Para mapear seu fluxo de caixa de maneira realista, dividiremos suas saídas em três categorias essenciais, incluindo as despesas extraordinárias que dão sentido ao seu esforço diário:</p>
                     
@@ -614,7 +671,6 @@
             }
         ];
 
-        // Core Functions to Render Reader Flow
         function initApp() {
             renderChaptersMenu();
             renderCurrentChapter();
@@ -623,13 +679,47 @@
             setupPWAInstall();
         }
 
-        // REGISTER SERVICE WORKER
+        // REGISTER SERVICE WORKER COM DETECTOR DE ATUALIZAÇÃO
+        let newWorker;
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registrado com sucesso:', reg.scope))
+                    .then(reg => {
+                        console.log('Service Worker registrado com sucesso:', reg.scope);
+                        
+                        // Detecta atualizações no arquivo sw.js
+                        reg.addEventListener('updatefound', () => {
+                            newWorker = reg.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed') {
+                                    if (navigator.serviceWorker.controller) {
+                                        // Existe uma nova versão ativa instalada em background! Mostrar banner
+                                        document.getElementById('update-banner').classList.remove('hidden');
+                                    }
+                                }
+                            });
+                        });
+                    })
                     .catch(err => console.error('Erro ao registrar Service Worker:', err));
             });
+        }
+
+        // Função chamada pelo botão "Atualizar Agora"
+        function updateApplication() {
+            if (newWorker) {
+                newWorker.postMessage({ action: 'skipWaiting' });
+            }
+            // Recarrega a tela para limpar o cache antigo e aplicar a nova versão
+            window.location.reload();
+        }
+
+        // CONTROLES DO MODAL DE HISTÓRICO
+        function openChangelogModal() {
+            document.getElementById('changelog-modal').classList.remove('hidden');
+        }
+
+        function closeChangelogModal() {
+            document.getElementById('changelog-modal').classList.add('hidden');
         }
 
         // PWA Installation Prompts Handler
@@ -641,8 +731,6 @@
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
-                
-                // Show installation buttons
                 if (installBtn) installBtn.classList.remove('hidden');
                 if (mobileInstallBtn) mobileInstallBtn.classList.remove('hidden');
             });
