@@ -101,7 +101,7 @@
                     </div>
                     <!-- VERSÃO VISUAL NO MENU -->
                     <button onclick="openChangelogModal()" class="text-[10px] bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 font-bold px-2 py-0.5 rounded-full transition flex items-center gap-1">
-                        <span>v1.2.0</span>
+                        <span>v1.3.0</span>
                         <i data-lucide="history" class="w-3 h-3"></i>
                     </button>
                 </div>
@@ -127,7 +127,7 @@
 
             <!-- Rodapé da Sidebar (Controles e Instalação) -->
             <div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex flex-col gap-3">
-                <!-- Botão de Instalar PWA (Sempre Visível) -->
+                <!-- Botão de Instalar PWA -->
                 <button onclick="showInstallInstructions()" class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-lg shadow-emerald-600/10 active:scale-95">
                     <i data-lucide="download-cloud" class="w-4 h-4"></i>
                     <span>Instalar Aplicativo</span>
@@ -168,7 +168,7 @@
                 <div class="text-center">
                     <!-- VERSÃO NO MOBILE HEADER -->
                     <button onclick="openChangelogModal()" class="text-[9px] bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 font-bold px-2 py-0.5 rounded-full transition mx-auto flex items-center gap-1 mb-0.5">
-                        <span>v1.2.0</span>
+                        <span>v1.3.0</span>
                         <i data-lucide="history" class="w-2.5 h-2.5"></i>
                     </button>
                     <span class="text-sm font-bold truncate block max-w-[150px]" id="mobile-chapter-title">Introdução</span>
@@ -326,21 +326,21 @@
                 <!-- Versão Atual -->
                 <div class="border-l-2 border-emerald-500 pl-4 space-y-2">
                     <div class="flex items-center justify-between">
-                        <span class="font-extrabold text-sm block">v1.2.0</span>
+                        <span class="font-extrabold text-sm block">v1.3.0</span>
                         <span class="text-[9px] bg-emerald-500/10 text-emerald-600 font-bold px-2.5 py-0.5 rounded-full">Versão Atual</span>
                     </div>
                     <ul class="text-xs text-slate-500 dark:text-slate-400 list-disc pl-4 space-y-1">
-                        <li><strong>Manual de Instalação Inteligente:</strong> Adicionado manual passo a passo ilustrado para dispositivos iOS (iPhone/Safari) e Android para contornar bloqueios de banners nativos.</li>
-                        <li><strong>Canal de Mentoria:</strong> Integração de formulário de contratação da Mentoria de Gestão Financeira com contato no WhatsApp.</li>
+                        <li><strong>Momento de Vida e Previdência:</strong> Lançamento do Capítulo 5 focado em ciclos de vida (acumulação vs. preservação), déficit do INSS, previdência privada (PGBL/VGBL) e Tesouro RendA+.</li>
+                        <li><strong>Proteção Cambial Global:</strong> Lançamento do Capítulo 6 focado no risco-país brasileiro, diversificação em dólar, spread cambial e contas internacionais.</li>
+                        <li><strong>Calculadoras Avançadas:</strong> Integração de simuladores de alocação de carteira inteligente e simulação de custos de remessa internacional.</li>
                     </ul>
                 </div>
-                <!-- Versão v1.1.0 -->
+                <!-- Versão v1.2.0 -->
                 <div class="border-l-2 border-slate-300 dark:border-slate-700 pl-4 space-y-2">
-                    <span class="font-extrabold text-sm block text-slate-500">v1.1.0</span>
+                    <span class="font-extrabold text-sm block text-slate-500">v1.2.0</span>
                     <ul class="text-xs text-slate-500 dark:text-slate-400 list-disc pl-4 space-y-1">
-                        <li>Adicionado controle de versão e detecção automática de atualizações.</li>
-                        <li>Correção no Capítulo 4: Blindagem da reserva de emergência contra compras de impulso.</li>
-                        <li>Inclusão do Histórico de Alterações (Changelog) interativo.</li>
+                        <li>Manual de Instalação PWA Inteligente para contornar bloqueios de banners nativos em iOS e Android.</li>
+                        <li>Canal de contratação da Mentoria de Gestão Financeira pelo WhatsApp.</li>
                     </ul>
                 </div>
             </div>
@@ -672,52 +672,161 @@
             },
             {
                 id: 'cap5',
-                title: 'Capítulo 5: Investimentos Inteligentes',
-                subtitle: 'Multiplicação de Riqueza e Custos Ocultos',
+                title: 'Capítulo 5: Ciclo de Vida & Aposentadoria',
+                subtitle: 'Da Acumulação à Preservação Patrimonial',
                 imageUrl: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=1200',
                 content: `
-                    <p class="mb-4">Depois de ter a casa organizada (sem dívidas e com reserva de emergência montada), é hora de colocar o seu dinheiro para trabalhar em ativos eficientes.</p>
+                    <p class="mb-4">O maior erro cometido por investidores iniciantes é ignorar o seu <strong>momento de vida</strong>. Estratégias financeiras de sucesso mudam de acordo com o seu tempo restante de trabalho e seus objetivos geracionais.</p>
                     
-                    <h3 class="text-lg font-bold mt-6 mb-2 text-emerald-600 dark:text-emerald-400">A Anatomia dos Custos Ocultos e Tributação</h3>
-                    <p class="mb-4">Não se engane apenas pelo rendimento nominal. Você deve calcular o rendimento real deduzindo as taxas de administração, taxas de carregamento e o impacto tributário (como a tabela regressiva de IR e o come-cotas).</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+                        <div class="p-4 bg-emerald-50 dark:bg-emerald-950/20 rounded-xl border border-emerald-100 dark:border-emerald-900/40">
+                            <span class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400 block mb-1">1. Momento de Acumulação (Jovens)</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Se você tem menos de 40 anos e está em fase produtiva, o seu foco deve ser o <strong>crescimento acelerado</strong>. Como seu horizonte temporal é longo, sua carteira pode (e deve) ter maior exposição a ativos <strong>arrojados e de renda variável</strong> (Ações, Fundos Imobiliários e Criptoativos), suportando flutuações de curto prazo para colher os frutos no futuro.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-xl border border-blue-100 dark:border-blue-900/40">
+                            <span class="text-lg font-extrabold text-blue-600 dark:text-blue-400 block mb-1">2. Momento de Preservação (Próximos do Fim)</span>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Se você está a menos de 10 anos da aposentadoria ou já vive de renda, o jogo muda para <strong>preservação e previsibilidade</strong>. Flutuações drásticas de ações podem comprometer seu sustento. O perfil deve se tornar mais <strong>conservador</strong>, direcionando o fluxo principal para <strong>Renda Fixa robusta, geradores de dividendos e cupons semestrais</strong>.
+                            </p>
+                        </div>
+                    </div>
 
-                    <!-- WORKSPACE: SIMULADOR DE JUROS COMPOSTOS -->
+                    <h3 class="text-xl font-bold mt-8 mb-3 text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                        <i data-lucide="shield-alert" class="w-5 h-5"></i> O Colapso Silencioso do INSS
+                    </h3>
+                    <p class="mb-4">Depender unicamente da previdência pública (INSS) é um dos maiores perigos estruturais para sua aposentadoria. O sistema público brasileiro trabalha sob o regime de repartição simples (quem trabalha paga para quem está aposentado). Com o rápido envelhecimento populacional e o déficit previdenciário crônico batendo recordes todos os anos, as regras futuras de teto de benefício e idade de aposentadoria tendem a ser progressivamente mais severas e depreciadas.</p>
+
+                    <h3 class="text-xl font-bold mt-8 mb-3 text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                        Previdência Privada e Tesouro RendA+
+                    </h3>
+                    <p class="mb-4">Para garantir um futuro digno por conta própria, você tem duas excelentes saídas focadas:</p>
+                    <ul class="list-disc pl-5 mb-4 text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                        <li><strong>Previdência Privada (PGBL ou VGBL):</strong> Excelente para postergar imposto (PGBL permite deduzir até 12% da renda tributável anual no modelo completo de declaração de IR). Prefira sempre fundos de taxa baixa com tabela regressiva de imposto para pagar apenas 10% de alíquota no resgate após 10 anos.</li>
+                        <li><strong>Tesouro RendA+ (Aposentadoria Extra):</strong> O título público do governo brasileiro feito sob medida para previdência. Você acumula títulos durante a vida e, na data escolhida, o Tesouro te paga uma renda mensal extra corrigida pela inflação por exatos 20 anos (240 parcelas mensais).</li>
+                    </ul>
+
+                    <!-- WORKSPACE: SIMULADOR DE ALOCAÇÃO DE ACORDO COM MOMENTO DE VIDA -->
                     <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
                         <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
-                            <i data-lucide="trending-up" class="w-5 h-5"></i>
-                            <h4 class="font-bold text-lg">Simulador de Crescimento Patrimonial</h4>
+                            <i data-lucide="pie-chart" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Simulador de Alocação de Ativos e Previdência</h4>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Veja o poder dos juros compostos trabalhando para você no longo prazo:</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Mova o controle de idade abaixo e defina seu perfil para ver a sugestão estrutural da sua carteira de investimentos ideal:</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                            <div class="space-y-3">
+                            <div class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Aporte Mensal Recorrente (R$):</label>
-                                    <input type="number" id="compound-aporte" value="500" oninput="runCompoundSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Qual é a sua Idade Atual?</label>
+                                    <input type="range" id="life-age" min="18" max="75" value="30" oninput="runLifeAllocationSimulator()" class="w-full accent-emerald-500">
+                                    <span class="text-xs text-emerald-600 font-bold block mt-1" id="life-age-val">30 anos de idade</span>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Taxa de Juros Anual Estimada (%):</label>
-                                    <input type="number" id="compound-taxa" value="10" oninput="runCompoundSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Tempo de Aplicação (Anos):</label>
-                                    <input type="range" id="compound-tempo" min="1" max="30" value="15" oninput="runCompoundSimulator()" class="w-full accent-emerald-500">
-                                    <span class="text-xs text-slate-500 dark:text-slate-400 font-bold block mt-1" id="compound-tempo-val">15 anos</span>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Qual o seu Perfil de Investidor?</label>
+                                    <select id="life-profile" onchange="runLifeAllocationSimulator()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+                                        <option value="conservador">Conservador (Evito riscos ao máximo)</option>
+                                        <option value="moderado" selected>Moderado (Aceito algumas flutuações por maior ganho)</option>
+                                        <option value="arrojado">Arrojado / Agressivo (Focado em multiplicação no longo prazo)</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="bg-white dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
-                                <div class="w-full h-40">
-                                    <canvas id="compound-chart"></canvas>
+                                <div class="w-full h-40 relative">
+                                    <canvas id="life-allocation-chart"></canvas>
                                 </div>
-                                <div class="flex justify-between items-center mt-3 text-xs">
+                                <div class="mt-4 flex flex-wrap gap-2 justify-center text-[10px] font-semibold" id="life-chart-legend">
+                                    <!-- Dynamic legend injected via JS -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-4 bg-emerald-500/10 rounded-xl" id="life-feedback">
+                            <!-- Dinamic text suggestion -->
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 'cap6',
+                title: 'Capítulo 6: Globalização Patrimonial',
+                subtitle: 'Proteção em Dólar e Diversificação de Risco-País',
+                imageUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1200',
+                content: `
+                    <p class="mb-4">Não importa quão boa seja sua carteira de investimentos local: se você deixa 100% das suas aplicações estruturadas no Brasil, você está cometendo um erro grave de concentração conhecido como <strong>risco-país</strong>.</p>
+                    
+                    <h3 class="text-xl font-bold mt-6 mb-3 text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                        <i data-lucide="globe" class="w-5 h-5"></i> Por Que Proteger Seu Dinheiro em Moeda Forte?
+                    </h3>
+                    <p class="mb-4">O Real brasileiro é uma moeda emergente e historicamente inflacionária que representa menos de 1% do PIB financeiro global. O Dólar americano (USD), por sua vez, é a moeda de reserva mundial. Ao investir diretamente no exterior:</p>
+                    <ul class="list-disc pl-5 mb-6 text-sm space-y-2 text-slate-700 dark:text-slate-300">
+                        <li><strong>Proteção contra o risco de inflação e desvalorização cambial:</strong> Você protege seu poder de compra global contra crises políticas e econômicas locais no Brasil.</li>
+                        <li><strong>Acesso às maiores marcas e mercados do planeta:</strong> É possível investir nas maiores empresas tecnológicas do mundo (Apple, Microsoft, Google, Nvidia) e em ETFs que cobrem mais de 40 países de forma simples.</li>
+                    </ul>
+
+                    <div class="p-5 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 rounded-r-xl my-6">
+                        <h4 class="font-bold text-amber-800 dark:text-amber-400 flex items-center gap-2 mb-2">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i> Cuidados Indispensáveis no Manejo da Conta Global
+                        </h4>
+                        <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed space-y-2">
+                            Investir lá fora ficou extremamente simples por meio de corretoras globais com atendimento em português, mas você deve ter atenção máxima a estes três pontos ocultos:<br><br>
+                            <strong>1. O Spread de Câmbio:</strong> Ao transferir reais para dólares, as corretoras cobram spread (taxa sobre a cotação comercial do dólar). Algumas cobram de 1.5% a 2.5%, encarecendo drasticamente o seu aporte. Prefira remessas programadas que utilizem spreads menores.<br>
+                            <strong>2. Diferença no IOF:</strong> O IOF para envio de dinheiro focado em <strong>Investimentos</strong> é de apenas <strong>0,38%</strong>, enquanto envios para contas correntes normais de gastos (viagem/disponibilidade) pagam <strong>1,1%</strong>.<br>
+                            <strong>3. Estate Tax (Imposto de Herança Americano):</strong> Ativos diretamente custodiados nos EUA em nome de pessoas físicas não-residentes fiscais sofrem uma alíquota brutal de até <strong>40% de imposto sucessório</strong> sobre montantes acumulados que excedam 60 mil dólares. Para patrimônios que superam essa marca, considere investir via ETFs domiciliados na Irlanda ou em estruturas offshore.
+                        </p>
+                    </div>
+
+                    <!-- WORKSPACE: SIMULADOR DE SPREAD E IOF NO CÂMBIO -->
+                    <div class="my-8 p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl">
+                        <div class="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400">
+                            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                            <h4 class="font-bold text-lg">Simulador de Spread e Eficiência Cambial</h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Veja quanto do seu dinheiro em Reais de fato vira dólares líquidos na sua conta internacional após despesas e tarifas:</p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Valor a Enviar para o Exterior (R$):</label>
+                                    <input type="number" id="ex-val" value="5000" oninput="calculateExchangeCost()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Dólar Comercial Hoje (R$):</label>
+                                    <input type="number" id="ex-commercial" value="5.25" step="0.01" oninput="calculateExchangeCost()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
                                     <div>
-                                        <span class="text-slate-500">Total Investido:</span>
-                                        <span id="compound-investido" class="font-bold block">R$ 90.000,00</span>
+                                        <label class="block text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Spread Cobrado (%):</label>
+                                        <input type="number" id="ex-spread" value="1.5" step="0.1" oninput="calculateExchangeCost()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-3.5 py-2 text-xs focus:outline-none focus:border-emerald-500">
                                     </div>
-                                    <div class="text-right">
-                                        <span class="text-emerald-500 font-semibold">Total Acumulado:</span>
-                                        <span id="compound-total" class="font-extrabold text-lg text-emerald-500 block">R$ 207.000,00</span>
+                                    <div>
+                                        <label class="block text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Tipo de Envio / IOF:</label>
+                                        <select id="ex-iof" onchange="calculateExchangeCost()" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg px-2 py-2 text-xs focus:outline-none focus:border-emerald-500">
+                                            <option value="0.38">Investimento (0.38% IOF)</option>
+                                            <option value="1.1">Disponibilidade (1.1% IOF)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col justify-center bg-white dark:bg-slate-900/60 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                                <div class="space-y-2 text-xs">
+                                    <div class="flex justify-between border-b pb-1.5">
+                                        <span class="text-slate-500">Custo de Spread Corretora:</span>
+                                        <span id="ex-cost-spread-val" class="font-bold text-rose-500">R$ 75,00</span>
+                                    </div>
+                                    <div class="flex justify-between border-b pb-1.5">
+                                        <span class="text-slate-500">Imposto Governamental (IOF):</span>
+                                        <span id="ex-cost-iof-val" class="font-bold text-rose-500">R$ 19,00</span>
+                                    </div>
+                                    <div class="flex justify-between border-b pb-1.5 font-semibold text-slate-700 dark:text-slate-200">
+                                        <span>Taxa de Câmbio Efetiva (VET):</span>
+                                        <span id="ex-vet-val" class="font-mono">R$ 5,35 / USD</span>
+                                    </div>
+                                    <div class="pt-2 text-center">
+                                        <span class="text-[10px] text-slate-500 uppercase font-bold block">Valor Líquido na Conta Internacional</span>
+                                        <span id="ex-net-val" class="text-2xl font-extrabold text-emerald-500">$ 916,07 USD</span>
                                     </div>
                                 </div>
                             </div>
@@ -813,13 +922,10 @@
         // GERENCIADOR DE DIÁLOGO DE INSTALAÇÃO MANUAL
         function showInstallInstructions() {
             if (deferredPrompt) {
-                // Se o prompt nativo do Android/Chrome estiver pronto, dispara de forma automática
                 triggerNativeInstall();
             } else {
-                // Caso contrário (iOS ou se o navegador bloqueou temporariamente), mostra o modal interativo
                 document.getElementById('install-modal').classList.remove('hidden');
                 
-                // Pré-seleciona a aba correta com base no sistema operacional do utilizador
                 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                 if (isIOS) {
                     setInstallTab('ios');
@@ -926,6 +1032,7 @@
 
             document.getElementById('reading-pane').scrollTop = 0;
 
+            // Inicia os scripts dos respectivos capítulos e calculadoras
             if (current.id === 'cap1') {
                 setTimeout(runBudgetDiagnostic, 100);
             } else if (current.id === 'cap2') {
@@ -933,7 +1040,9 @@
             } else if (current.id === 'cap4') {
                 setTimeout(calculateReserve, 100);
             } else if (current.id === 'cap5') {
-                setTimeout(runCompoundSimulator, 100);
+                setTimeout(runLifeAllocationSimulator, 100);
+            } else if (current.id === 'cap6') {
+                setTimeout(calculateExchangeCost, 100);
             }
 
             updateProgress();
@@ -1204,83 +1313,117 @@
             document.getElementById('res-total-val').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         }
 
-        // CHAPTER 5: COMPOUND INTEREST WEALTH BUILDER
-        function runCompoundSimulator() {
-            const aporte = parseFloat(document.getElementById('compound-aporte').value) || 0;
-            const jurosAnual = parseFloat(document.getElementById('compound-taxa').value) || 0;
-            const anos = parseInt(document.getElementById('compound-tempo').value) || 10;
+        // CHAPTER 5: LIFE ALLOCATION SIMULATOR
+        function runLifeAllocationSimulator() {
+            const idade = parseInt(document.getElementById('life-age').value) || 30;
+            const perfil = document.getElementById('life-profile').value || 'moderado';
 
-            document.getElementById('compound-tempo-val').innerText = `${anos} anos`;
+            document.getElementById('life-age-val').innerText = `${idade} anos de idade`;
 
-            const taxaMensal = Math.pow(1 + (jurosAnual / 100), 1 / 12) - 1;
-            const meses = anos * 12;
-
-            let totalInvestido = 0;
-            let totalAcumulado = 0;
-            let chartLabels = [];
-            let chartDataInvestido = [];
-            let chartDataAcumulado = [];
-
-            for (let m = 1; m <= meses; m++) {
-                totalInvestido += aporte;
-                totalAcumulado = (totalAcumulado + aporte) * (1 + taxaMensal);
-
-                if (m % 12 === 0) {
-                    chartLabels.push(`Ano ${m / 12}`);
-                    chartDataInvestido.push(totalInvestido);
-                    chartDataAcumulado.push(Math.round(totalAcumulado));
-                }
+            // Equação básica do ciclo de vida adaptada por perfil:
+            // "Regra dos 100 ou 110 de alocação"
+            let percentRendaVariavel = 110 - idade;
+            if (perfil === 'conservador') {
+                percentRendaVariavel = Math.max(10, percentRendaVariavel - 25);
+            } else if (perfil === 'arrojado') {
+                percentRendaVariavel = Math.min(85, percentRendaVariavel + 15);
             }
 
-            document.getElementById('compound-investido').innerText = totalInvestido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-            document.getElementById('compound-total').innerText = totalAcumulado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            percentRendaVariavel = Math.max(5, Math.min(90, percentRendaVariavel));
+            
+            // Divisão dos ativos
+            let varStock = Math.round(percentRendaVariavel * 0.70);
+            let varGlobal = Math.round(percentRendaVariavel * 0.30);
+            
+            let fixRenda = 100 - (varStock + varGlobal);
+            let fixPrevidencia = Math.round(fixRenda * 0.40);
+            let fixDireto = fixRenda - fixPrevidencia;
 
-            const ctx = document.getElementById('compound-chart');
+            const ctx = document.getElementById('life-allocation-chart');
             if (!ctx) return;
 
-            if (activeCharts['compound-chart']) {
-                activeCharts['compound-chart'].destroy();
+            if (activeCharts['life-allocation-chart']) {
+                activeCharts['life-allocation-chart'].destroy();
             }
 
-            activeCharts['compound-chart'] = new Chart(ctx, {
-                type: 'line',
+            activeCharts['life-allocation-chart'] = new Chart(ctx, {
+                type: 'doughnut',
                 data: {
-                    labels: chartLabels,
-                    datasets: [
-                        {
-                            label: 'Total Acumulado',
-                            data: chartDataAcumulado,
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            fill: true,
-                            tension: 0.3
-                        },
-                        {
-                            label: 'Total Investido',
-                            data: chartDataInvestido,
-                            borderColor: '#94a3b8',
-                            borderDash: [5, 5],
-                            fill: false
-                        }
-                    ]
+                    labels: ['Renda Fixa Conservadora', 'Previdência Privada / RendA+', 'Ações / FIIs Brasileiros', 'Ativos em Dólar (EUA/Global)'],
+                    datasets: [{
+                        data: [fixDireto, fixPrevidencia, varStock, varGlobal],
+                        backgroundColor: ['#3b82f6', '#6366f1', '#f59e0b', '#10b981'],
+                        borderWidth: 1
+                    }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false }
-                    },
-                    scales: {
-                        y: {
-                            ticks: { display: false },
-                            grid: { display: false }
-                        },
-                        x: {
-                            grid: { display: false }
-                        }
                     }
                 }
             });
+
+            // Gerador de legendas customizadas
+            document.getElementById('life-chart-legend').innerHTML = `
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6]"></span> Renda Fixa: ${fixDireto}%</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#6366f1]"></span> Previdência: ${fixPrevidencia}%</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span> Renda Var. BR: ${varStock}%</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-[#10b981]"></span> Globais (Dólar): ${varGlobal}%</span>
+            `;
+
+            // Mensagem de sugestão dinâmica
+            let feedback = '';
+            if (idade < 40) {
+                feedback = `
+                    <p class="text-xs text-emerald-800 dark:text-emerald-400">
+                        <strong>Dica do Mentor (Fase de Acumulação):</strong> Com ${idade} anos, seu tempo de juros compostos é o seu melhor aliado! Foque em aumentar seu aporte mensal em <strong>Ativos de Renda Variável e Internacionais (${varStock + varGlobal}%)</strong> para multiplicar o capital, utilizando a Previdência Privada para otimizar seus impostos.
+                    </p>
+                `;
+            } else if (idade >= 40 && idade < 58) {
+                feedback = `
+                    <p class="text-xs text-blue-800 dark:text-blue-400">
+                        <strong>Dica do Mentor (Fase de Consolidação):</strong> Aos ${idade} anos, comece a balancear a carteira de forma moderada. Mantenha boa exposição internacional para blindagem cambial, mas reforce aportes em <strong>Previdência Privada ou Tesouro RendA+</strong> para garantir renda programada livre das oscilações de curto prazo.
+                    </p>
+                `;
+            } else {
+                feedback = `
+                    <p class="text-xs text-indigo-800 dark:text-indigo-400 font-medium">
+                        <strong>Dica do Mentor (Fase de Preservação / Renda):</strong> Na faixa dos ${idade} anos, seu foco principal é blindar o capital. A maior parcela de sua carteira deve estar em <strong>Renda Fixa e Previdência (${fixDireto + fixPrevidencia}%)</strong> focada em distribuição de dividendos e pagamentos de cupons mensais de inflação.
+                    </p>
+                `;
+            }
+
+            document.getElementById('life-feedback').innerHTML = feedback;
+        }
+
+        // CHAPTER 6: EXCHANGE RATES AND FEES CALCULATOR
+        function calculateExchangeCost() {
+            const reaisParaEnviar = parseFloat(document.getElementById('ex-val').value) || 0;
+            const dolarComercial = parseFloat(document.getElementById('ex-commercial').value) || 5.20;
+            const spreadPercent = parseFloat(document.getElementById('ex-spread').value) || 1.5;
+            const iofPercent = parseFloat(document.getElementById('ex-iof').value) || 0.38;
+
+            // 1. Aplica o custo de Spread sobre a cotação comercial
+            const spreadEfetivo = dolarComercial * (spreadPercent / 100);
+            const dolarComSpread = dolarComercial + spreadEfetivo;
+
+            // 2. Calcula as taxas de acordo com o valor em Reais
+            const custoSpreadReais = reaisParaEnviar - (reaisParaEnviar / (1 + (spreadPercent / 100)));
+            const custoIofReais = (reaisParaEnviar - custoSpreadReais) * (iofPercent / 100);
+
+            // 3. VET (Valor Efetivo Total) que reflete o custo real de cada Dólar adquirido
+            const valorSemImpostoEdespesa = reaisParaEnviar - custoSpreadReais - custoIofReais;
+            const dólaresLíquidos = valorSemImpostoEdespesa / dolarComercial;
+
+            const vet = reaisParaEnviar / dólaresLíquidos;
+
+            // Exibe os resultados no Workspace
+            document.getElementById('ex-cost-spread-val').innerText = custoSpreadReais.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('ex-cost-iof-val').innerText = custoIofReais.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            document.getElementById('ex-vet-val').innerText = vet.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ' / USD';
+            document.getElementById('ex-net-val').innerText = dólaresLíquidos.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
         }
 
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
