@@ -1,5 +1,5 @@
 ```javascript
-const CACHE_NAME = 'plan-financeiro-v1.2.0'; // Incrementada para aplicar o controle de cache da versão com mentoria
+const CACHE_NAME = 'plan-financeiro-v1.2.0'; // Incrementar esta string sempre que houver novas alterações visuais
 const ASSETS_TO_CACHE = [
   'index.html',
   'manifest.json',
@@ -12,10 +12,11 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Instalando e cacheando recursos.');
+      console.log('[Service Worker] Instalando e cacheando recursos do Ebook.');
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
+  self.skipWaiting();
 });
 
 // Evento de Ativação: Limpa caches de versões antigas automaticamente para liberar espaço
