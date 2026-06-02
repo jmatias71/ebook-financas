@@ -1,5 +1,5 @@
 ```javascript
-const CACHE_NAME = 'plan-financeiro-v1.2.0'; // Incrementar esta string sempre que houver novas alterações visuais
+const CACHE_NAME = 'plan-financeiro-v1.3.0'; // Incrementar para a v1.3.0 de forma que o celular baixe a nova estrutura
 const ASSETS_TO_CACHE = [
   'index.html',
   'manifest.json',
