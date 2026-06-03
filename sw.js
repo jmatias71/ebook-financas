@@ -1,8 +1,10 @@
 ```javascript
-const CACHE_NAME = 'plan-financeiro-v1.3.0'; // Incrementar para a v1.3.0 de forma que o celular baixe a nova estrutura
+const CACHE_NAME = 'plan-financeiro-v1.3.0'; // Mantida a versão v1.3.0 para forçar o download dos novos arquivos de ícone
 const ASSETS_TO_CACHE = [
   'index.html',
   'manifest.json',
+  'icon-192.png', // Adicionado ao cache do Service Worker
+  'icon-512.png', // Adicionado ao cache do Service Worker
   'https://cdn.tailwindcss.com',
   'https://cdn.jsdelivr.net/npm/chart.js',
   'https://unpkg.com/lucide@latest'
